@@ -5,7 +5,7 @@ MAINTAINER Oliver Castro <olivertamboboycastro@gmail.com>
 USER root
 
 RUN apt -y update \
-    && apt install -y ca-certificates apt-transport-https \
+    && apt install -y ca-certificates apt-transport-https curl software-properties-common \
     && wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - \
     && echo "deb https://packages.sury.org/php/ stretch main" | tee /etc/apt/sources.list.d/php.list
 RUN apt update \
@@ -21,7 +21,8 @@ RUN apt install -y php7.1-curl \
     php7.1-soap \
     php7.1-mcrypt \
     php7.1-mysql \ 
-    php7.1-zip
+    php7.1-zip \
+    php7.1-imagick
 
 
 RUN apt install -y rubygems
@@ -32,6 +33,10 @@ RUN gem install bundle
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && mv composer.phar /usr/local/bin/composer
+# Install NodeJs
 
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+
+RUN apt-get install nodejs
 
 
